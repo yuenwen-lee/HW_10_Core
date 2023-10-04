@@ -9,12 +9,6 @@
 #include "Geo2D.hpp"
 
 
-void Geo2D::set(int32_t x, int32_t y)
-{
-    this->x = x;
-    this->y = y;
-}
-
 void Geo2D::dump(void)
 {
     printf("<%d, %d>", x, y);

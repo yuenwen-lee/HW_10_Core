@@ -25,7 +25,10 @@ public:
         this->y = y;
     };
 
-    void set(int32_t x, int32_t y);
+    inline void set(int32_t x, int32_t y) {
+        this->x = x;
+        this->y = y;
+    }
     void dump(void);
 };
 
