@@ -16,36 +16,68 @@
 using namespace::std;
 
 
-class BlkDisp {
+class Color {
+private:
+    /* data */
 
 public:
-    Geo2D           size;
-    uint32_t        pxl_num;
-    const uint8_t  *shape;
-    Vec2D           location;
+    uint8_t  red;
+    uint8_t  green;
+    uint8_t  blue;
 
-    BlkDisp() {
-        size.set(0, 0);
-        pxl_num = 0;
-        shape = (uint8_t *) NULL;
-    }
-    BlkDisp(int32_t x, int32_t y, uint32_t color, const uint8_t *shape) {
-        this->size.set(x, y);
-        this->pxl_num = x * y;
-        this->shape = new uint8_t[pxl_num];
-        this->shape = shape;
+    Color() {
+        red = green = blue = 0;
+    };
+    ~Color() {
     };
 
-    void set_size(Geo2D &size);
-    void set_size(int32_t x, int32_t y);
-    void set_shape(const uint8_t *shape);
-    void draw(int32_t x, int32_t y);
-    void erase(void);
+    inline void set(uint8_t red, uint8_t green, uint8_t blue)
+    {
+        this->red = red;
+        this->green = green;
+        this->blue = blue;
+    }
 };
 
 
-extern const Segment canvas_x;
-extern const Segment canvas_y;
+class BlkDisp {
+public:
+    Geo2D           geo_size;   // geo_size of the block (calculated)
+    Geo2D           pixel;      // <x, y> dimension in pixel number
+    const uint8_t  *shape;      // 0 or 1, points to the array
+    Color           color;
+    uint32_t        scale;      // each pixe size (pixel is square)
+
+    BlkDisp() {
+        geo_size.set(0, 0);
+        pixel.set(0, 0);
+        shape = (uint8_t *) NULL;
+    }
+    BlkDisp(uint32_t scale, uint32_t x, uint32_t y, const uint8_t *shape,
+            uint8_t red, uint8_t green, uint8_t blue) {
+        this->scale = scale;
+        this->shape = shape;
+        color.set(red, green, blue);
+        pixel.set(x, y);
+        geo_size.set(x * scale, y * scale);
+    };
+
+    inline void set_scale(uint32_t scale) {
+        this->scale = scale;
+    }
+
+    inline void set_pixel(uint32_t x, uint32_t y) {
+        pixel.set(x, y);
+    }
+
+    inline void set_shape(const uint8_t *shape) {
+        this->shape = shape;
+    }
+
+    inline void set_color(uint8_t red, uint8_t green, uint8_t blue) {
+        color.set(red, green, blue);
+    }
+};
 
 
 #endif /* BlkDisp_hpp */
