@@ -9,41 +9,54 @@
 #define BlkDisp_hpp
 
 #include <cstdio>
-#include "Shape.hpp"
+#include "Pattern.hpp"
 
 
-typedef Shape *(* State_McHn)(void *blk_disp, uint32_t mode, int32_t time,
-                              uint32_t *indx_bank, uint32_t *indx_shape);
+// typedef Pattern *(* PtrnStateFunc)(void *blk_disp, uint32_t mode, int32_t time,
+//                                    uint32_t *indx_bank, uint32_t *indx_shape);
+using PtrnStateFunc = Pattern *(*)(void *blk_disp, uint32_t mode, int32_t time,
+                                   uint32_t *indx_bank, uint32_t *indx_shape);
 
 
-struct ShapeBank {
-    uint32_t  count;
-    Shape    *bank;
+class PatternInfo {
+public:
+    int32_t   x0;       // pattern origin in x
+    int32_t   y0;       // pattern origin in y
+    Pattern  *pattern;  // pointer to the pattern
 
-    inline void set_count(uint32_t count) {
-        this->count = count;
+    inline void config(int32_t x0, int32_t y0, Pattern *ptrn_p) {
+        this->x0 = x0;
+        this->y0 = y0;
+        pattern = ptrn_p;
     }
-    inline void set_bank(Shape *bank) {
-        this->bank = bank;
+    inline void fetch_tile_info_init(void) {
+        pattern->fetch_tile_ofst_init();
     }
-
-    void init(void);
+    inline int32_t fetch_tile_info(int32_t *x_p, int32_t *y_p) {
+        int32_t x, y;
+        int32_t rslt = pattern->fetch_tile_ofst(&x, &y);
+        *x_p = x + x0;
+        *y_p = y + y0;
+        return rslt;
+    }
     void dump(void);
 };
 
 
 class BlkDisp {
 public:
-    uint32_t    bank_num;
-    ShapeBank  *bank_dB;
-    State_McHn  stat_fn;
+    uint32_t       bank_num;
+    PatternBank   *bank_dB;
+    PtrnStateFunc  state_fn;
+    PatternInfo    pattern_info;
 
-    void config(uint32_t bank_num, ShapeBank *banks_dB, State_McHn func_ptr);
+    void config(uint32_t bank_num, PatternBank *banks_dB, PtrnStateFunc func_ptr);
     void dump(void);
 };
 
 
-void BlkDisp_Test();
+void BlkDisp_Test(void);
+void BlkDisp_Test_2(void);
 
 
 #endif /* BlkDisp_hpp */
