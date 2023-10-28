@@ -49,32 +49,6 @@ void BlkGeo::set_speed(int32_t x, int32_t y)
     speed.y = y;
 }
 
-void BlkGeo::explosion_enable(bool same_size, uint32_t size_x, uint32_t size_y)
-{
-    exp_flag = true;
-
-    if (same_size == true) {
-        // the explosion area is the same as the object size
-        exp_orig_ofst.set(0, 0);
-        exp_size.x = block_size.x;
-        exp_size.y = block_size.y;
-
-    } else {
-        // the explosion area is different to the object size
-        exp_orig_ofst.x = (block_size.x - size_x) / 2;
-        exp_orig_ofst.y = (block_size.y - size_y) / 2;
-        exp_size.x = size_x;
-        exp_size.y = size_y;
-    }
-}
-
-void BlkGeo::exp_loc_update(void)
-{
-    Vec2D exp_orig = orig + exp_orig_ofst;
-    exp_loc.set(exp_orig.x, exp_orig.x + exp_size.x,
-                exp_orig.y, exp_orig.y + exp_size.y);
-}
-
 // ................... damage ................... //
 void BlkGeo::set_life(uint32_t dmg)
 {

@@ -30,13 +30,6 @@ public:
     uint32_t    obj_life;       // life of the object, 0 -> destroyed
     uint32_t    dmg_val;        // accumulated damage object sustained
 
-    bool        exp_flag;       // explosion flag, when fully damaged
-    uint32_t    exp_dmg;        // damage caused by explosion
-    Vec2D       exp_orig_ofst;  // origin offset (against 'orig') of the
-                                // explosion area
-    Geo2D       exp_size;       // explosion area dimension
-    Rectangle   exp_loc;        // explosion rectangle location
-
     BlkGeo() {
         name = NULL;
         orig.set(0, 0);
@@ -44,7 +37,6 @@ public:
         speed.set(0, 0);
         obj_life = 1;
         dmg_val = 0;
-        exp_flag = false;
     }
     BlkGeo(const char *name) {
         this->name = name;
@@ -53,7 +45,6 @@ public:
         speed.set(0, 0);
         obj_life = 1;
         dmg_val = 0;
-        exp_flag = false;
     }
     BlkGeo(const char *name, int32_t x0, int32_t y0,
           int32_t size_x, int32_t size_y,
@@ -76,9 +67,6 @@ public:
     void set_size(uint32_t size_x, uint32_t size_y);
     void set_speed(Vec2D &speed);
     void set_speed(int32_t x, int32_t y);
-
-    void explosion_enable(bool same_size, uint32_t size_x, uint32_t size_y);
-    void exp_loc_update(void);
 
     void set_life(uint32_t dmg);
     bool destoryed(void);

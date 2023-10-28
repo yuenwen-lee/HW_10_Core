@@ -21,14 +21,14 @@ struct Color {
 
 
 struct Pattern {
-    struct Color color;    // NOTE: Except the field, tile_count, which will
-    uint32_t size_x;       //       be derived by calling the func check(),
-    uint32_t size_y;       //       the other fileds should be explicitly
-    uint32_t scale;        //       initilized in the global varaible.
-    const char *pattern;   //
+    struct Color color;    // NOTE: Except the field, 'tile_count', which
+    uint32_t size_x;       //       will be derived by calling the func
+    uint32_t size_y;       //       check(), the other fileds should be
+    uint32_t scale;        //       explicitly initilized in the global
+    const char *pattern;   //       varaible.
     uint32_t tile_count;   //       Pleas check the 'Pattern_Test.cpp'
 
-    void init(void);      // Note: Must be called before using !!!!
+    void init(void);       // Note: Must be called before using !!!!
     void fetch_tile_ofst_init(void);
     int32_t fetch_tile_ofst(int32_t *x, int32_t *y);
 
