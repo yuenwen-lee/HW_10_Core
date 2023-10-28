@@ -117,7 +117,10 @@ void PatternBank::init()
 
 void PatternBank::dump(void)
 {
-    printf("PatternBank - Pattern: %d\n", count);
+    printf("PatternBank -\n");
+    printf("  Name: %s\n", name);
+    printf("  Pattern: %d\n", count);
+    printf("\n");
 
     for (uint32_t n = 0; n < count; ++n) {
         bank[n].dump("  ");

@@ -18,7 +18,6 @@ Pattern exmp_0 = {
     "xxxxxxxx"
     "xxx  xxx"
     "xxx  xxx"
-//  0               // tile_count
 };
 
 Pattern exmp_1;

@@ -30,15 +30,18 @@ void BlkDisp::config(uint32_t bank_num, PatternBank *banks_dB, PtrnStateFunc fun
 
 void BlkDisp::dump(void)
 {
-    printf("BlkDisp - PatternBank: %d\n", bank_num);
-    printf("        - state_fn: %p\n", state_fn);
+    printf("BlkDisp -\n");
+    printf("  PatternBank: %d\n", bank_num);
+    printf("  state_fn: %p\n", state_fn);
     printf("\n");
+
     if (bank_num == 0) {
         return;
+
+    } else {
+        for (int n = 0; n < bank_num; ++n) {
+            bank_dB[n].dump();
+        }
+        printf("\n");
     }
-    
-    for (int n = 0; n < bank_num; ++n) {
-        bank_dB[n].dump();
-    }
-    printf("\n");
 }

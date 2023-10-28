@@ -13,7 +13,7 @@ Pattern *exmp_func(void *blk_disp, uint32_t mode, int32_t time,
                    uint32_t *indx_bank, uint32_t *indx_shape);
 
 
-Pattern shape_array_0[] = {
+static Pattern ptrn_array_0[] = {
     {
         {10, 20, 30},   // <red, green, blue>
         8, 6,           // <size_x, size_y>
@@ -50,7 +50,7 @@ Pattern shape_array_0[] = {
 };
 
 
-Pattern shape_array_1[] = {
+static Pattern ptrn_array_1[] = {
     {
         {11, 21, 31},
         5, 5,
@@ -94,14 +94,16 @@ Pattern shape_array_1[] = {
 };
 
 
-PatternBank shape_Db[] = {
+static PatternBank ptrn_Db[] = {
     {
-        3,
-        shape_array_0
+        "Test Ptrn_0",
+        sizeof(ptrn_array_0) / sizeof(Pattern),
+        ptrn_array_0
     },
     {
-        4,
-        shape_array_1
+        "Test Ptrn_1",
+        sizeof(ptrn_array_1) / sizeof(Pattern),
+        ptrn_array_1
     }
 };
 
@@ -135,7 +137,7 @@ void BlkDisp_Test(void)
     BlkDisp  blk_disp;
     uint32_t indx_bank, indx_shape;
 
-    blk_disp.config(2, shape_Db, exmp_func);
+    blk_disp.config(sizeof(ptrn_Db)/sizeof(PatternBank), ptrn_Db, exmp_func);
     blk_disp.dump();
     printf("\n");
 
@@ -171,7 +173,7 @@ void BlkDisp_Test_2(void)
 
     BlkDisp *blk_disp = new BlkDisp [BLK_DISP_NUM];   // allocated in heap
     for (n = 0; n < BLK_DISP_NUM; n++) {
-        blk_disp[n].config(2, shape_Db, exmp_func);
+        blk_disp[n].config(2, ptrn_Db, exmp_func);
     }
 
     for (n = 0; n < BLK_DISP_NUM; ++n) {
@@ -179,11 +181,13 @@ void BlkDisp_Test_2(void)
         blk_disp[n].dump();
         printf("\n");
     }
+    printf("\n");
 
     // Simulate the
-    blk_disp[0].pattern_info.config( 100,  110, &shape_Db[0].bank[2]);
-    blk_disp[1].pattern_info.config( 300,  310, &shape_Db[1].bank[0]);
-    blk_disp[2].pattern_info.config(-100, -110, &shape_Db[1].bank[3]);
+    blk_disp[0].pattern_info.config( 100,  110, &ptrn_Db[0].bank[2]);
+    blk_disp[1].pattern_info.config( 300,  310, &ptrn_Db[1].bank[0]);
+    blk_disp[2].pattern_info.config(-100, -110, &ptrn_Db[1].bank[3]);
+    printf("........!!!!!!!! PatternInfo !!!!!!!!........\n\n");
     for (n = 0; n < BLK_DISP_NUM; ++n) {
         blk_disp[n].pattern_info.dump();
         printf("\n");
@@ -195,6 +199,7 @@ void BlkDisp_Test_2(void)
     Stack<PatternInfo>  stack;
     PatternInfo  *ptrn_info_p;
 
+    printf("............!!!! Stack Test !!!!............\n\n");
     stack.config("PtrnInfo", 10);
     for (n = 0; n < BLK_DISP_NUM; ++n) {
         stack.push(&blk_disp[n].pattern_info);

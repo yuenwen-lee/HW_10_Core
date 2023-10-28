@@ -41,9 +41,13 @@ struct Pattern {
 
 
 struct PatternBank {
-    uint32_t  count;
-    Pattern   *bank;
+    const char  *name;
+    uint32_t     count;
+    Pattern     *bank;
 
+    inline void set_name(const char *name) {
+        this->name = name;
+    }
     inline void set_count(uint32_t count) {
         this->count = count;
     }
