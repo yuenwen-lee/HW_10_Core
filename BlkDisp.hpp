@@ -12,10 +12,10 @@
 #include "Pattern.hpp"
 
 
-// typedef Pattern *(* PtrnStateFunc)(void *blk_disp, uint32_t mode, int32_t time,
-//                                    uint32_t *indx_bank, uint32_t *indx_shape);
-using PtrnStateFunc = Pattern *(*)(void *blk_disp, uint32_t mode, int32_t time,
-                                   uint32_t *indx_bank, uint32_t *indx_shape);
+// typedef Pattern *(* PatternFunc)(void *blk_disp, uint32_t mode, int32_t time,
+//                                  uint32_t *indx_bank, uint32_t *indx_shape);
+using PatternFunc = Pattern *(*)(void *blk_disp, uint32_t mode, int32_t time,
+                                 uint32_t *indx_bank, uint32_t *indx_shape);
 
 
 class PatternInfo {
@@ -47,10 +47,10 @@ class BlkDisp {
 public:
     uint32_t       bank_num;
     PatternBank   *bank_dB;
-    PtrnStateFunc  state_fn;
-    PatternInfo    pattern_info;
+    PatternFunc    ptrn_func;
+    PatternInfo    ptrn_info;
 
-    void config(uint32_t bank_num, PatternBank *banks_dB, PtrnStateFunc func_ptr);
+    void config(uint32_t bank_num, PatternBank *banks_dB, PatternFunc func_ptr);
     void dump(void);
 };
 

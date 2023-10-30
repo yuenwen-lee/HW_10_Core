@@ -16,11 +16,11 @@ void PatternInfo::dump()
 }
 
 
-void BlkDisp::config(uint32_t bank_num, PatternBank *banks_dB, PtrnStateFunc func_ptr)
+void BlkDisp::config(uint32_t bank_num, PatternBank *banks_dB, PatternFunc func_ptr)
 {
     this->bank_num = bank_num;
     this->bank_dB = banks_dB;
-    this->state_fn = func_ptr;
+    this->ptrn_func = func_ptr;
 
     for (uint32_t n = 0; n < bank_num; ++n) {
         bank_dB[n].init();
@@ -32,7 +32,7 @@ void BlkDisp::dump(void)
 {
     printf("BlkDisp -\n");
     printf("  PatternBank: %d\n", bank_num);
-    printf("  state_fn: %p\n", state_fn);
+    printf("  PatternFunc: %p\n", ptrn_func);
     printf("\n");
 
     if (bank_num == 0) {

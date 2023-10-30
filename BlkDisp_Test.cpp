@@ -141,8 +141,8 @@ void BlkDisp_Test(void)
     blk_disp.dump();
     printf("\n");
 
-    Pattern *ptrn_p = blk_disp.state_fn((void *) &blk_disp,
-                                        10, 5, &indx_bank, &indx_shape);
+    Pattern *ptrn_p = blk_disp.ptrn_func((void *) &blk_disp,
+                                         10, 5, &indx_bank, &indx_shape);
 
     printf("............!!!! After call the state_fn() !!!!............\n\n");
     printf("  indx_bank: %d, indx_shape: %d\n", indx_bank, indx_shape);
@@ -184,12 +184,12 @@ void BlkDisp_Test_2(void)
     printf("\n");
 
     // Simulate the
-    blk_disp[0].pattern_info.config( 100,  110, &ptrn_Db[0].bank[2]);
-    blk_disp[1].pattern_info.config( 300,  310, &ptrn_Db[1].bank[0]);
-    blk_disp[2].pattern_info.config(-100, -110, &ptrn_Db[1].bank[3]);
+    blk_disp[0].ptrn_info.config( 100,  110, &ptrn_Db[0].bank[2]);
+    blk_disp[1].ptrn_info.config( 300,  310, &ptrn_Db[1].bank[0]);
+    blk_disp[2].ptrn_info.config(-100, -110, &ptrn_Db[1].bank[3]);
     printf("........!!!!!!!! PatternInfo !!!!!!!!........\n\n");
     for (n = 0; n < BLK_DISP_NUM; ++n) {
-        blk_disp[n].pattern_info.dump();
+        blk_disp[n].ptrn_info.dump();
         printf("\n");
     }
     printf("\n");
@@ -202,7 +202,7 @@ void BlkDisp_Test_2(void)
     printf("............!!!! Stack Test !!!!............\n\n");
     stack.config("PtrnInfo", 10);
     for (n = 0; n < BLK_DISP_NUM; ++n) {
-        stack.push(&blk_disp[n].pattern_info);
+        stack.push(&blk_disp[n].ptrn_info);
     }
     stack.dump("--------> ");
     printf("\n");
