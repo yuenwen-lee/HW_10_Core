@@ -68,7 +68,7 @@ public:
     void set_t_seg(int32_t t0, int32_t t1);
     void set_t_seg(Segment &time);
 
-    bool add(BlkGeo &bk1, BlkGeo &bk2, Segment &t_seg);
+    bool add(BlkGeo &bk1, BlkGeo &bk2, int32_t t0);
     void proc(void);
     void clean(void);
     

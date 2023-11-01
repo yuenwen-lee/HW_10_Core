@@ -83,34 +83,39 @@ void ClsnList_Test(void)
     clsn_list.config(8);
     clsn_list.set_t_seg(10, 30);
     clsn_list.dump_all();
-    
-    printf("........ Test 1.a - Add: Misl_0 + Shltr_0 [ 9 ~ 12] ...............\n");
-    t_seg.set(9, 12);
-    clsn_list.add(missl_0, shltr_0, t_seg);
+
+    printf("........ Test 1.a - Add: Alien_A + AA_Gun [  8 ~ 15] ...............\n");
+    t_seg.set( 8, 15);
+    clsn_list.add(alien_A, aa_gun, t_seg.p0);
     clsn_list.dump_clsnList();
 
-    printf("........ Test 1.x - Add: Shltr_0 + Misl_0 (Dup ...) ...............\n");
-    clsn_list.add(shltr_0, missl_0, t_seg);
+    printf("........ Test 2.a - Add: Misl_0 + Shltr_0 [ 10 ~ 12] ...............\n");
+    t_seg.set(10, 12);
+    clsn_list.add(missl_0, shltr_0, t_seg.p0);
     clsn_list.dump_clsnList();
 
-    printf("........ Test 1.b - Add: Misl_0 + Shltr_1 [18 ~ 21] ...............\n");
+    printf("........ Test 2.x - Add: Shltr_0 + Misl_0 (Dup ...) ...............\n");
+    clsn_list.add(shltr_0, missl_0, t_seg.p0);
+    clsn_list.dump_clsnList();
+
+    printf("........ Test 2.b - Add: Misl_0 + Shltr_1 [18 ~ 21] ...............\n");
     t_seg.set(18, 21);
-    clsn_list.add(missl_0, shltr_1, t_seg);
+    clsn_list.add(missl_0, shltr_1, t_seg.p0);
     clsn_list.dump_clsnList();
 
-    printf("........ Test 2.a - Add: Misl_1 + Shltr_0 [11 ~ 14] ...............\n");
+    printf("........ Test 3.a - Add: Misl_1 + Shltr_0 [11 ~ 14] ...............\n");
     t_seg.set(11, 14);
-    clsn_list.add(missl_1, shltr_0, t_seg);
+    clsn_list.add(missl_1, shltr_0, t_seg.p0);
     clsn_list.dump_clsnList();
 
-    printf("........ Test 2.b - Add: Misl_1 + Shltr_1 [20 ~ 23] ...............\n");
+    printf("........ Test 3.b - Add: Misl_1 + Shltr_1 [20 ~ 23] ...............\n");
     t_seg.set(20, 23);
-    clsn_list.add(missl_1, shltr_1, t_seg);
+    clsn_list.add(missl_1, shltr_1, t_seg.p0);
     clsn_list.dump_clsnList();
 
-    printf("........ Test 3.a - Add: Misl_Z + Shltr_Z [30 ~ 35] ...............\n");
+    printf("........ Test 4.a - Add: Misl_Z + Shltr_Z [30 ~ 35] ...............\n");
     t_seg.set(30, 35);
-    clsn_list.add(shltr_Z, missl_Z, t_seg);
+    clsn_list.add(shltr_Z, missl_Z, t_seg.p0);
     clsn_list.dump_clsnList();
 
     printf("........ Test X.0 - Before Process ................................\n");
@@ -127,9 +132,9 @@ void ClsnList_Test(void)
     shltr_1.dump();
     missl_Z.dump();
     shltr_Z.dump();
-//  alien_A.dump();
+    alien_A.dump();
 //  alien_B.dump();
-//  aa_gun.dump();
+    aa_gun.dump();
 
     printf("\n\n");
 }
@@ -171,7 +176,7 @@ void ClsnList_Test_2(void)
             if (cld) {
                 printf("Collission: "); t_cld.dump(); printf("\n\n");
 
-                if (clsn_list.add(missl, shltr, t_cld)) {
+                if (clsn_list.add(missl, shltr, t_cld.p0)) {
 
                     printf("..... Before Process .......................\n");
                     clsn_list.dump_clsnList();
@@ -216,50 +221,52 @@ void ClsnList_Test_Sort(void)
     BlkGeo obj_C2("Obj_C2");
 
     clsnList.config(12);
-    clsnList.set_t_seg(10, 30);
+    clsnList.set_t_seg(10, 30);   // 10 ~ 30
+    printf("---------- Time Slot [10, 30]\n");
+    printf("\n");
     
     Segment t_seg;
 
-    printf("---------- Insert [18, 20]\n");
-    t_seg.set(18, 20);
-    clsnList.add(obj_A0, obj_A2, t_seg);
+    t_seg.set(13, 28);
+    clsnList.add(obj_A0, obj_A2, t_seg.p0);
+    printf("---------- Insert [%d, %d] - A0, A2\n", t_seg.p0, t_seg.p1);
     clsnList.dump_clsnList();
 
-    printf("---------- Insert [19, 20]\n");
-    t_seg.set(19, 20);
-    clsnList.add(obj_A1, obj_A2, t_seg);
+    t_seg.set(10, 22);
+    clsnList.add(obj_A1, obj_A2, t_seg.p0);
+    printf("---------- Insert [%d, %d] - A1, A2\n", t_seg.p0, t_seg.p1);
     clsnList.dump_clsnList();
 
-    printf("---------- Insert [12, 16]\n");
-    t_seg.set(12, 16);
-    clsnList.add(obj_B0, obj_B1, t_seg);
+    t_seg.set(30, 36);
+    clsnList.add(obj_B0, obj_B1, t_seg.p0);
+    printf("---------- Insert [%d, %d] - B0, B1\n", t_seg.p0, t_seg.p1);
     clsnList.dump_clsnList();
 
-    printf("---------- Insert [ 9, 12]\n");
-    t_seg.set(9, 12);
-    clsnList.add(obj_C0, obj_C2, t_seg);
+    t_seg.set( 9, 12);
+    clsnList.add(obj_C0, obj_C2, t_seg.p0);
+    printf("---------- Insert [%d, %d] - C0, C2\n", t_seg.p0, t_seg.p1);
     clsnList.dump_clsnList();
 
-    printf("---------- Insert [15, 18]\n");
     t_seg.set(15, 18);
-    clsnList.add(obj_C0, obj_C1, t_seg);
+    clsnList.add(obj_C0, obj_C1, t_seg.p0);
+    printf("---------- Insert [%d, %d] - C0, C1\n", t_seg.p0, t_seg.p1);
     clsnList.dump_clsnList();
 
     printf("========== Duplicated Collison Info ==========\n\n");
 
-    printf("---------- Insert [19, 20] A2 + A1\n");
-    t_seg.set(19, 20);
-    clsnList.add(obj_A2, obj_A1, t_seg);
+    t_seg.set(10, 22);
+    clsnList.add(obj_A2, obj_A1, t_seg.p0);
+    printf("---------- Insert [%d, %d] - A2, A1\n", t_seg.p0, t_seg.p1);
     clsnList.dump_clsnList();
 
-    printf("---------- Insert [ 9, 12] C2 + C0\n");
-    t_seg.set(9, 12);
-    clsnList.add(obj_C2, obj_C0, t_seg);
+    t_seg.set(15, 18);
+    clsnList.add(obj_C1, obj_C0, t_seg.p0);
+    printf("---------- Insert [%d, %d] - C1, C0\n", t_seg.p0, t_seg.p1);
     clsnList.dump_clsnList();
 
-    printf("---------- Insert [12, 16] B0 + B1\n");
-    t_seg.set(12, 16);
-    clsnList.add(obj_B0, obj_B1, t_seg);
+    t_seg.set(30, 36);
+    clsnList.add(obj_B1, obj_B0, t_seg.p0);
+    printf("---------- Insert [%d, %d] - B1, B0\n", t_seg.p0, t_seg.p1);
     clsnList.dump_clsnList();
 
     printf("========== Dump ALL ==========================\n\n");

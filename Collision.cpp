@@ -46,9 +46,10 @@ void ClsnList::config(uint32_t pool_size)
     }
 }
 
-bool ClsnList::add(BlkGeo &bk1, BlkGeo &bk2, Segment &time)
+bool ClsnList::add(BlkGeo &bk1, BlkGeo &bk2, int32_t t0)
 {
-    if (seg_overlap_check(t_seg, time)) {
+    if (t_seg.p0 <= t0 && t0 < t_seg.p1) {
+        // If collision happen within this time segment ....
 
         ClsnItem *info = pool.allocate();
         if (info == NULL) {
@@ -56,7 +57,7 @@ bool ClsnList::add(BlkGeo &bk1, BlkGeo &bk2, Segment &time)
             return false;  // pool is empty !!!
         }
 
-        info->t_start = time.p0;
+        info->t_start = t0;
         info->blk1 = &bk1;
         info->blk2 = &bk2;
 
@@ -107,7 +108,7 @@ void ClsnList::clean(void)
 
 void ClsnList::dump_clsnList(void)
 {
-    printf("tSlotH - t_seg: "); t_seg.dump(); printf("\n");
+    printf("tSlot - t_seg: "); t_seg.dump(); printf("\n");
     clsnList.dump("  ");
 
     if (clsnList.lenth() == 1) {
