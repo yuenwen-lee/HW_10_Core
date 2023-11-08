@@ -9,6 +9,24 @@
 #include "Collision.hpp"
 
 
+void ClsnInfo::dump(const char *prfx)
+{
+    printf("%sclsn_info - t: %d\n", prfx, t_start);
+
+    if (vtal_1 != nullptr) {
+        printf("%s  vtal_1 (%p) - %d (dmg %d)\n", prfx, vtal_1, *vtal_1, damg_1);
+    } else {
+        printf("%s  vtal_1 is NULL\n", prfx);
+    }
+
+    if (vtal_2 != nullptr) {
+        printf("%s  vtal_2 (%p) - %d (dmg %d)\n", prfx, vtal_2, *vtal_2, damg_2);
+    } else {
+        printf("%s  vtal_2 is NULL\n", prfx);
+    }
+}
+
+
 // Private methods ..........................................................
 
 bool ClsnList::insert(ClsnItem *info)
@@ -25,8 +43,8 @@ bool ClsnList::insert(ClsnItem *info)
             break;
         }
         
-        if ((info->blk1 == ref->blk1 && info->blk2 == ref->blk2) ||
-            (info->blk1 == ref->blk2 && info->blk2 == ref->blk1)) {
+        if ((info->vtal_1 == ref->vtal_1 && info->vtal_2 == ref->vtal_2) ||
+            (info->vtal_1 == ref->vtal_2 && info->vtal_2 == ref->vtal_1)) {
             return false;
         }
         link = link->prev();
@@ -46,7 +64,8 @@ void ClsnList::config(uint32_t pool_size)
     }
 }
 
-bool ClsnList::add(BlkGeo &bk1, BlkGeo &bk2, int32_t t0)
+bool ClsnList::add(int32_t *vtal_1, uint32_t damg_1,
+                   int32_t *vtal_2, uint32_t damg_2, int32_t t0)
 {
     if (t_seg.p0 <= t0 && t0 < t_seg.p1) {
         // If collision happen within this time segment ....
@@ -58,8 +77,10 @@ bool ClsnList::add(BlkGeo &bk1, BlkGeo &bk2, int32_t t0)
         }
 
         info->t_start = t0;
-        info->blk1 = &bk1;
-        info->blk2 = &bk2;
+        info->damg_1 = damg_1;
+        info->vtal_1 = vtal_1;
+        info->damg_2 = damg_2;
+        info->vtal_2 = vtal_2;
 
         if (insert(info)) {
             return true;
@@ -77,22 +98,14 @@ void ClsnList::proc(void)
 {
     Link     *link;
     ClsnItem *info;
-    BlkGeo   *bk1, *bk2;
-    uint32_t damage;
     
     while (clsnList.linked()) {
 
         link = clsnList.remove_next();
         info = (ClsnItem *) link->get_ent();
-        bk1 = info->blk1;
-        bk2 = info->blk2;
-
-        if (bk1->obj_life > 0 && bk2->obj_life > 0) {
-            damage = (bk1->obj_life > bk2->obj_life) ? bk2->obj_life : bk1->obj_life;
-            bk1->dmg_val += damage;
-            bk2->dmg_val += damage;
-            bk1->obj_life -= damage;
-            bk2->obj_life -= damage;
+        if (*info->vtal_1 > 0 && *info->vtal_2 > 0) {
+            *info->vtal_1 -= info->damg_2;
+            *info->vtal_2 -= info->damg_1;
         }
 
         pool.free(info);
@@ -131,5 +144,3 @@ void ClsnList::dump_all(void)
     pool.dump("  ");
     dump_clsnList();
 }
-
-

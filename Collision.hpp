@@ -15,33 +15,28 @@
 
 class ClsnInfo {
 public:
-    int32_t  t_start;
-    BlkGeo  *blk1;
-    BlkGeo  *blk2;
-    
-    ClsnInfo() {
-        blk1 = blk2 = nullptr;
-    }
+    int32_t    t_start;
 
-    void set(BlkGeo *blk1, BlkGeo *blk2, int32_t time) {
-        this->blk1 = blk1;
-        this->blk2 = blk2;
+    int32_t   *vtal_1;
+    uint32_t   damg_1;
+
+    int32_t   *vtal_2;
+    uint32_t   damg_2;
+
+    ClsnInfo() {
+        vtal_1 = vtal_2 = nullptr;
+    }
+    
+    void set(int32_t *vtal_1, uint32_t damg_1,
+             int32_t *vtal_2, uint32_t damg_2, int32_t time) {
+        this->vtal_1 = vtal_1;
+        this->damg_1 = damg_1;
+        this->vtal_2 = vtal_2;
+        this->damg_2 = damg_2;
         t_start = time;
     }
-    
-    void dump(const char *prfx) {
-        printf("%sclsn_info - t: %d, ", prfx, t_start);
-        if (blk1 != nullptr) {
-            printf("blk1: %s, ", blk1->name);
-        } else {
-            printf("blk1: NULL, ");
-        }
-        if (blk2 != nullptr) {
-            printf("blk2: %s\n", blk2->name);
-        } else {
-            printf("blk2: NULL\n");
-        }
-    }
+
+    void dump(const char *prfx);
 };
 
 
@@ -54,9 +49,8 @@ private:
     ClsnPool  pool;
     Segment   t_seg;
     Link      clsnList;
-    
     bool      insert(ClsnItem *clsnItem);
-    
+
 public:
     ClsnList() {
         t_seg.set(0, 1);
@@ -64,11 +58,12 @@ public:
     }
     
     void config(uint32_t pool_size);
-
+    
     void set_t_seg(int32_t t0, int32_t t1);
     void set_t_seg(Segment &time);
 
-    bool add(BlkGeo &bk1, BlkGeo &bk2, int32_t t0);
+    bool add(int32_t *vtal_1, uint32_t damg_1,
+             int32_t *vtal_2, uint32_t damg_2, int32_t time);
     void proc(void);
     void clean(void);
     

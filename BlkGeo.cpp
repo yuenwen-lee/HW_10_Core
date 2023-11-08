@@ -49,17 +49,6 @@ void BlkGeo::set_speed(int32_t x, int32_t y)
     speed.y = y;
 }
 
-// ................... damage ................... //
-void BlkGeo::set_life(uint32_t dmg)
-{
-    obj_life = dmg;
-}
-
-bool BlkGeo::destoryed(void)
-{
-    return (obj_life == 0);
-}
-
 // ................... move ................... //
 void BlkGeo::move_dtime(int32_t dt)
 {
@@ -102,7 +91,4 @@ void BlkGeo::dump(void)
     printf("  Size     : "); block_size.dump(); printf("\n");
     printf("  Block Loc: "); block_loc.dump(); printf("\n");
     printf("  Speed    : "); speed.dump(); printf("\n");
-    printf("  Obj Life : %d\n", obj_life);
-    printf("  Dmg Value: %d\n", dmg_val);
-    printf("\n");
 }
