@@ -13,7 +13,7 @@
 #include "Pool.hpp"
 
 
-class ClsnInfo {
+class PairInfo {
 public:
     int32_t    t_start;
 
@@ -23,7 +23,7 @@ public:
     int32_t   *vtal_2;
     uint32_t   damg_2;
 
-    ClsnInfo() {
+    PairInfo() {
         vtal_1 = vtal_2 = nullptr;
     }
     
@@ -40,21 +40,21 @@ public:
 };
 
 
-using ClsnItem = Item<ClsnInfo>;
-using ClsnPool = Pool<ClsnInfo>;
+using DamgPair = Item<PairInfo>;
+using DamgPool = Pool<PairInfo>;
 
 
-class ClsnList {
+class DamgList {
 private:
-    ClsnPool  pool;
+    DamgPool  pool;
     Segment   t_seg;
-    Link      clsnList;
-    bool      insert(ClsnItem *clsnItem);
+    Link      list;
+    bool      insert(DamgPair *pair);
 
 public:
-    ClsnList() {
+    DamgList() {
         t_seg.set(0, 1);
-        clsnList.id = 11110000;
+        list.id = 11110000;
     }
     
     void config(uint32_t pool_size);
@@ -67,26 +67,26 @@ public:
     void proc(void);
     void clean(void);
     
-    void dump_all(void);
-    void dump_clsnList(void);
+    void dump(void);
+    void dump_list(void);
 };
 
 
-inline void ClsnList::set_t_seg(int32_t t0, int32_t t1)
+inline void DamgList::set_t_seg(int32_t t0, int32_t t1)
 {
     t_seg.set(t0, t1);
 }
 
-inline void ClsnList::set_t_seg(Segment &time)
+inline void DamgList::set_t_seg(Segment &time)
 {
     set_t_seg(time.p0, time.p1);
 }
 
 
-void ClsnItem_Test(void);
-void ClsnList_Test(void);
-void ClsnList_Test_2(void);
-void ClsnList_Test_Sort(void);
+void DamgPair_Test(void);
+void DamgList_Test(void);
+void DamgList_Test_2(void);
+void DamgList_Test_Sort(void);
 
 
 #endif /* Collision_hpp */

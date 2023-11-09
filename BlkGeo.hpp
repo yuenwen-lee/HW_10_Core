@@ -13,11 +13,6 @@
 #include "Rectangle.hpp"
 
 
-#define CELL_STAT_NONE       0
-#define CELL_STAT_GOOD       1
-#define CELL_STAT_DESTROYED  2
-
-
 class BlkGeo {
     
 public:
@@ -58,8 +53,6 @@ public:
     void set_size(uint32_t size_x, uint32_t size_y);
     void set_speed(Vec2D &speed);
     void set_speed(int32_t x, int32_t y);
-
-    bool destoryed(void);
 
     void move_dtime(int32_t dt);
     void move_vec(Vec2D &vec);
