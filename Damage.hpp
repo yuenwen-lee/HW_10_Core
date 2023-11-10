@@ -11,29 +11,23 @@
 #include <cstdio>
 #include "BlkGeo.hpp"
 #include "Pool.hpp"
+#include "Vitality.hpp"
 
 
 class PairInfo {
 public:
     int32_t    t_start;
-
-    int32_t   *vtal_1;
-    uint32_t   damg_1;
-
-    int32_t   *vtal_2;
-    uint32_t   damg_2;
+    Vitality  *vtal_1;
+    Vitality  *vtal_2;
 
     PairInfo() {
         vtal_1 = vtal_2 = nullptr;
     }
     
-    void set(int32_t *vtal_1, uint32_t damg_1,
-             int32_t *vtal_2, uint32_t damg_2, int32_t time) {
-        this->vtal_1 = vtal_1;
-        this->damg_1 = damg_1;
-        this->vtal_2 = vtal_2;
-        this->damg_2 = damg_2;
+    void set(Vitality *vtal_1, Vitality *vtal_2, int32_t time) {
         t_start = time;
+        this->vtal_1 = vtal_1;
+        this->vtal_2 = vtal_2;
     }
 
     void dump(const char *prfx);
@@ -62,8 +56,7 @@ public:
     void set_t_seg(int32_t t0, int32_t t1);
     void set_t_seg(Segment &time);
 
-    bool add(int32_t *vtal_1, uint32_t damg_1,
-             int32_t *vtal_2, uint32_t damg_2, int32_t time);
+    bool add(Vitality *vtal_1, Vitality *vtal_2, int32_t time);
     void proc(void);
     void clean(void);
     

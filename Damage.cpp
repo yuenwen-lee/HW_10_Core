@@ -7,20 +7,24 @@
 
 #include "Segment.hpp"
 #include "Damage.hpp"
+#include <cstring>
 
 
 void PairInfo::dump(const char *prfx)
 {
-    printf("%sclsn_info - t: %d\n", prfx, t_start);
+    char str[20] = "  ";
+
+    printf("%sPairInfo - t: %d\n", prfx, t_start);
+    strcat(str, prfx);
 
     if (vtal_1 != nullptr) {
-        printf("%s  vtal_1 (%p) - %d (dmg %d)\n", prfx, vtal_1, *vtal_1, damg_1);
+        vtal_1->dump(str);
     } else {
         printf("%s  vtal_1 is NULL\n", prfx);
     }
 
     if (vtal_2 != nullptr) {
-        printf("%s  vtal_2 (%p) - %d (dmg %d)\n", prfx, vtal_2, *vtal_2, damg_2);
+        vtal_2->dump(str);
     } else {
         printf("%s  vtal_2 is NULL\n", prfx);
     }
@@ -59,13 +63,12 @@ bool DamgList::insert(DamgPair *pair)
 
 void DamgList::config(uint32_t pool_size)
 {
-    if (pool.config("ClsnInfo", pool_size) == false) {
+    if (pool.config("PairInfo", pool_size) == false) {
         printf("Error, fail to configure ClsnInfo pool!\n");
     }
 }
 
-bool DamgList::add(int32_t *vtal_1, uint32_t damg_1,
-                   int32_t *vtal_2, uint32_t damg_2, int32_t t0)
+bool DamgList::add(Vitality *vtal_1, Vitality *vtal_2, int32_t t0)
 {
     if (t_seg.p0 <= t0 && t0 < t_seg.p1) {
         // If collision happen within this time segment ....
@@ -77,9 +80,7 @@ bool DamgList::add(int32_t *vtal_1, uint32_t damg_1,
         }
 
         pair->t_start = t0;
-        pair->damg_1 = damg_1;
         pair->vtal_1 = vtal_1;
-        pair->damg_2 = damg_2;
         pair->vtal_2 = vtal_2;
 
         if (insert(pair)) {
@@ -103,9 +104,12 @@ void DamgList::proc(void)
 
         link = list.remove_next();
         pair = (DamgPair *) link->get_ent();
-        if (*pair->vtal_1 > 0 && *pair->vtal_2 > 0) {
-            *pair->vtal_1 -= pair->damg_2;
-            *pair->vtal_2 -= pair->damg_1;
+        Vitality *vtal_1 = pair->vtal_1;
+        Vitality *vtal_2 = pair->vtal_2;
+
+        if (!vtal_1->destroyed() && !vtal_2->destroyed()) {
+            vtal_1->damg_func(vtal_1, vtal_2->damage);
+            vtal_2->damg_func(vtal_2, vtal_1->damage);
         }
 
         pool.free(pair);
