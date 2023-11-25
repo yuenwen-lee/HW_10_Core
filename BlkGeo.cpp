@@ -84,11 +84,11 @@ bool blk_collide(BlkGeo &bk0, BlkGeo &bk1, Segment &time)
 
 
 // ................... dump ................... //
-void BlkGeo::dump(void)
+void BlkGeo::dump(const char *prfx)
 {
-    printf("Block Obj: %s\n", name);
-    printf("  Orig     : "); orig.dump(); printf("\n");
-    printf("  Size     : "); block_size.dump(); printf("\n");
-    printf("  Block Loc: "); block_loc.dump(); printf("\n");
-    printf("  Speed    : "); speed.dump(); printf("\n");
+    printf("%sBlock Obj: %s\n", prfx, name);
+    printf("%s  Orig     : ", prfx); orig.dump(); printf("\n");
+    printf("%s  Size     : ", prfx); block_size.dump(); printf("\n");
+    printf("%s  Block Loc: ", prfx); block_loc.dump(); printf("\n");
+    printf("%s  Speed    : ", prfx); speed.dump(); printf("\n");
 }

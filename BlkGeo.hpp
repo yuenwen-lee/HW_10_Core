@@ -44,7 +44,7 @@ public:
         block_loc.set(x0, x0 + block_size.x, y0, y0 + block_size.y);
     }
 
-    void dump(void);
+    void dump(const char *prfx);
 
     void set_name(const char *name);
     void block_loc_update(void);

@@ -155,8 +155,8 @@ void DamgList_Test_2(void)
     v_missl.init( 10, 300);
     v_shltr.init(200,   6);
 
-    missl.dump(); v_missl.dump("  ");
-    shltr.dump(); v_shltr.dump("  ");
+    missl.dump(""); v_missl.dump("  ");
+    shltr.dump(""); v_shltr.dump("  ");
 
     printf("__________ !!!!!! Start Simulation !!!!!! __________\n\n");
 
@@ -169,8 +169,8 @@ void DamgList_Test_2(void)
         printf("____________ Time: [%d, %d] ________________________\n\n",
                time, (time + d_time));
 
-        missl.dump(); v_missl.dump("  ");
-        shltr.dump(); v_shltr.dump("  ");
+        missl.dump(""); v_missl.dump("  ");
+        shltr.dump(""); v_shltr.dump("  ");
         printf("\n");
 
         if (v_missl.alived() && v_shltr.alived()) {
@@ -189,8 +189,8 @@ void DamgList_Test_2(void)
                     damg_list.proc();
                     damg_list.dump_list();
 
-                    missl.dump(); v_missl.dump("  ");
-                    shltr.dump(); v_shltr.dump("  ");
+                    missl.dump(""); v_missl.dump("  ");
+                    shltr.dump(""); v_shltr.dump("  ");
                     printf("\n");
                 }
             }
