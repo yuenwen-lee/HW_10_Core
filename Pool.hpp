@@ -70,25 +70,27 @@ bool Pool<T>::config(const char *name, uint32_t size)
     this->name = name;
 
     if (bank_size != size) {
+
         if (bank != nullptr) {
             delete [] bank;
             bank = nullptr;
         }
-
         bank_size = size;
-        if (size != 0) {
-            bank = new Item<T> [size];
-        }
 
-        uint32_t tmp = (((unsigned long) &bank[0]) &
-                        (POOL_ID_MASK >> POOL_ID_MASK_SHIFT));
-        pool.id = tmp << POOL_ID_MASK_SHIFT;
-        pool.reset();
-        pool_space = 0;
-        for (uint32_t n = 0; n < size; ++n) {
-            bank[n].link.id = pool.id + (n + 1);
-            pool.insert_prev(&bank[n].link);
-            pool_space++;
+        if (size != 0) {
+
+            bank = new Item<T> [size];
+
+            uint32_t tmp = (((unsigned long) &bank[0]) &
+                            (POOL_ID_MASK >> POOL_ID_MASK_SHIFT));
+            pool.id = tmp << POOL_ID_MASK_SHIFT;
+            pool.reset();
+            pool_space = 0;
+            for (uint32_t n = 0; n < size; ++n) {
+                bank[n].link.id = pool.id + (n + 1);
+                pool.insert_prev(&bank[n].link);
+                pool_space++;
+            }
         }
     }
 
