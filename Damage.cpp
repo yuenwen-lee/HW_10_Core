@@ -108,8 +108,8 @@ void DamgList::proc(void)
         Vitality *vtal_2 = pair->vtal_2;
 
         if (!vtal_1->destroyed() && !vtal_2->destroyed()) {
-            vtal_1->damg_func(vtal_1, vtal_2->damage);
-            vtal_2->damg_func(vtal_2, vtal_1->damage);
+            vtal_1->damage_eval(*vtal_2);
+            vtal_2->damage_eval(*vtal_1);
         }
 
         pool.free(pair);

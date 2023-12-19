@@ -8,33 +8,36 @@
 #ifndef Explosion_hpp
 #define Explosion_hpp
 
-#include <cstdint>
 #include <cstdio>
-#include "Vec2D.hpp"
-#include "Geo2D.hpp"
-#include "Rectangle.hpp"
+#include "BlkGeo.hpp"
+#include "Vitality.hpp"
 
 
 class Explosion {
-    bool        enable;         // explosion flag, when fully damaged
-    Vec2D       orig_ofst;      // origin offset (against 'orig') of the
-                                // explosion area
-    Geo2D       exp_size;       // explosion area dimension
-    Rectangle   exp_loc;        // explosion rectangle location
+public:
+    const char  *name;
+    Vec2D        ofst;       // Explosion area related to the Object BlkGeo's origin.
+    Geo2D        size;
+    Rectangle    area_loc;
+    Vitality     vital;     // Damage caused by the explosion
 
-    uint32_t    damage;         // damage caused by explosion
+    Explosion() {
+        name = "No_Name ...";
+    }
+    
+    void set_name(const char *name) {
+        this->name = name;
+    }
+    void config(int32_t ofst_x, int32_t ofst_y,
+                uint32_t size_x, uint32_t size_y, uint32_t damage);
+    void update(int32_t x0, int32_t y0);
+    void update(Vec2D orig);
+
+    void dump(const char *prfx);
 };
 
-/* ********************************************************************** *
 
- Note:
- (0) This is just a place holder ......
- (1) When the object explodes, the explosion will damage objects within
-     its rectangle area.
- (2) If we leverage the BlkGeo, the calculation and interaction with other
-     objects conceptually could be the same as object collision.
- (3) So, it is better to leverage the class BlkGeo, later .....
+void Explosion_Test(void);
 
- * ********************************************************************** */
 
  #endif /* Explosion_hpp */

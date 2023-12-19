@@ -12,41 +12,28 @@
 #include <cstdio>
 
 
-extern void damg_func_default(void *vtal, uint32_t damage);
-
-using DamgFunc = void (*)(void *vtal, uint32_t damage);
-
-
-class Vitality {
+class Vitality_Abst {
 public:
     uint32_t  life;
     uint32_t  damage_recv;
     uint32_t  damage;
-    DamgFunc  damg_func;
-    
-    Vitality() {
+
+    Vitality_Abst() {
         life = damage_recv = damage = 0;
-        damg_func = damg_func_default;
-    }
-    
-    inline void init(uint32_t life, uint32_t damage) {
-        this->life = life;
-        this->damage = damage;
-    }
-    
-    inline void set_func(DamgFunc func_ptr) {
-        this->damg_func = func_ptr;
     }
 
-    inline bool destroyed(void) {
-        return life <= damage_recv;
-    }
-    
-    inline bool alived(void) {
-        return life > damage_recv;
-    }
-
+    void init(uint32_t life, uint32_t damage);
+    bool destroyed(void);
+    bool alived(void);
     void dump(const char *prfx);
+
+    virtual void damage_eval(Vitality_Abst &vtal) = 0;
+};
+
+
+class Vitality : public Vitality_Abst {
+public:
+    void damage_eval(Vitality_Abst &vtal);
 };
 
 

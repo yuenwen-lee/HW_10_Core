@@ -8,17 +8,32 @@
 #include "Vitality.hpp"
 
 
-void damg_func_default(void *obj, uint32_t damage)
+void Vitality_Abst::init(uint32_t life, uint32_t damage)
 {
-    Vitality *vtal = (Vitality *) obj;
-    vtal->damage_recv += damage;
+    this->life = life;
+    this->damage = damage;
 }
 
-void Vitality::dump(const char *prfx)
+bool Vitality_Abst::destroyed(void)
+{
+    return life <= damage_recv;
+}
+
+bool Vitality_Abst::alived(void)
+{
+    return life > damage_recv;
+}
+
+void Vitality_Abst::dump(const char *prfx)
 {
     printf("%sVitality - %p\n", prfx, this);
     printf("%s  life: %d\n", prfx, life);
-    printf("%s  damage (receied): %d\n", prfx, damage_recv);
+    printf("%s  damage (received): %d\n", prfx, damage_recv);
     printf("%s  damage: %d\n", prfx, damage);
-    printf("%s  damg_func: %p\n", prfx, damg_func);
+}
+
+
+void Vitality::damage_eval(Vitality_Abst &vtal)
+{
+    damage_recv += vtal.damage;
 }

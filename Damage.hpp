@@ -80,6 +80,7 @@ void DamgPair_Test(void);
 void DamgList_Test(void);
 void DamgList_Test_2(void);
 void DamgList_Test_Sort(void);
+void Damage_Test_Explsn(void);
 
 
 #endif /* Collision_hpp */
