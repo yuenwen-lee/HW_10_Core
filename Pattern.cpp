@@ -73,6 +73,13 @@ int32_t Pattern::get_ofst_y(void)
 }
 
 
+Pattern *PatternBank::rotate_func(uint32_t timer)
+{
+    uint32_t indx = (timer / rotate_factor) % count;
+    return &bank[indx];
+}
+
+
 void Pattern::dump(const char *prfx)
 {
     printf("%sPattern -\n", prfx);
@@ -118,8 +125,9 @@ void PatternBank::init()
 void PatternBank::dump(void)
 {
     printf("PatternBank -\n");
-    printf("  Name: %s\n", name);
+    printf("  Name   : %s\n", name);
     printf("  Pattern: %d\n", count);
+    printf("  RotFctr: %d\n", rotate_factor);
     printf("\n");
 
     for (uint32_t n = 0; n < count; ++n) {
