@@ -126,3 +126,11 @@ void PatternBank::dump(void)
         bank[n].dump("  ");
     }
 }
+
+
+void PatternInfo::dump()
+{
+    printf("PatternInfo - \n");
+    printf("  x0, y0: [%d, %d]\n", x0, y0);
+    pattern->dump("  ");
+}
